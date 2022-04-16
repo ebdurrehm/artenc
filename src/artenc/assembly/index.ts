@@ -42,28 +42,44 @@ export class Contract {
     }
   }
 
-  //donate the writer
+ //donate the writer
   // if the articles of the writers have minum views count(5), then send 3 NEAR to these writers' balance 
   sendNearToWriter(): string {
-      //check whether the sender of the transaction is the owner of the contract
-      checkOwner(context.sender, this.CONTRACT_OWNER);
-      //find all writers who have five viewed articles
-    let writers = findDonateableWriter();
-    
-    if (writers.length == 0) {
-      return "there are no donateable writers to donate"
+    //check whether the sender of the transaction is the owner of the contract
+    checkOwner(context.sender, this.CONTRACT_OWNER);
+    //find all writers who have five viewed articles
+  let writers = findDonateableWriter();
+  
+  if (writers.length == 0) {
+    return "there are no donateable writers to donate"
+  }
+  else {
+    for (let i = 0; i < writers.length; i++) {
+      const to_writer = ContractPromiseBatch.create(writers[i]);
+      const donationAmount: u128 = u128.from("3000000000000000000000000");
+      to_writer.transfer(donationAmount);
     }
-    else {
-      for (let i = 0; i < writers.length; i++) {
-        const to_writer = ContractPromiseBatch.create(writers[i]);
-        const donationAmount: u128 = u128.from("3000000000000000000000000");
-        to_writer.transfer(donationAmount);
-      }
-      return `you donated these/this ${writers.toString()} writers/writer`
-    }
+    return `you donated these/this ${writers.toString()} writers/writer`
+  }
+}
+
+
+  //viwe how many articles are in the blockchaine  
+  getArticleSize(): i32 {
+    return Articles.size;
   }
 
+   //get current contract's balance
+   getBalance(): u128 {
+    const balance:u128 = u128.from(context.accountBalance);
+    return balance;
 
+  }
+
+ 
+
+
+}
 
 
 //define Articles container on the storage
