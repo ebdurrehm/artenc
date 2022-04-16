@@ -1,6 +1,6 @@
 # artenc
 The Encyclopedia of writers' articles | Donate writers by their article
-![S](https://drive.google.com/file/d/1U2Mir9BSfYoEoODu0tvhxmTY4g_mzBPy/view?usp=sharing)
+![ARTENC](https://github.com/ebdurrehm/artenc/blob/main/ARTENC.png)
 
 ___
 ## About project and its business model
