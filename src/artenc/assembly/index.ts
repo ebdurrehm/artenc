@@ -76,6 +76,21 @@ export class Contract {
 
   }
 
+  //get all of the added articles without url property
+  // because user views this article's title and sender 
+  //and if user is interested with it then calls useArticle method 
+  //then can see the url of the this article
+  getArticles(): Array<generalArticle> {
+    return returnMetaArticle();
+  }
+
+   // get specific article with its all data url, sender and title
+  // set increased point to the sender of this article 
+  //this point is required criteria  to send near to the writers
+  useArticle(owner: string): Array<Article> {
+    let findedArticles = useArticle(owner);
+    return findedArticles;
+  }
  
 
 
