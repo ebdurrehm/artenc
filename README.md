@@ -37,7 +37,7 @@ requires the following environment variables
 
 ## Methods and its explanations
 
-| Name   |      functionality      |  run by |
+| Name   |      functionality      |  privilege |
 |----------|:-------------:|------:|
 | add | creates a new article based on the information added by the sender and adds it to the storage  | public |
 | getArticleSize |    returns the number of articles currently in storage   |   public |
