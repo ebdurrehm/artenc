@@ -1,7 +1,10 @@
 # artenc
 The Encyclopedia of writers' articles | Donate writers by their article
-___
-![ARTENC](https://github.com/ebdurrehm/artenc/blob/main/ARTENC.png)
+
+<p align="center">
+  <img src="https://github.com/ebdurrehm/artenc/blob/main/ARTENC.png">
+</p>
+
 
 ___
 ## About project and its business model
