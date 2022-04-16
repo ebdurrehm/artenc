@@ -1,12 +1,12 @@
 # artenc
-The Encyclopedia of writers' articles | Donate writers by their article
+The Encyclopedia of writers' articles 
 
 <p align="center">
   <img src="https://github.com/ebdurrehm/artenc/blob/main/ARTENC.png">
 </p>
 
 
-___
+
 ## About project and its business model
 #### This project is a kind of paid encyclopedia. Anyone can add their article to this contract by paying a minimum of 1 NEAR. If each author adds at least 5 articles to the contract and the article is used by the contract users, 3 NEARs are sent to that author from the account of the contract. As a result, both the authors and the contractor benefit.
 
