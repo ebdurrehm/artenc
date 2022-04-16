@@ -91,6 +91,26 @@ export class Contract {
     let findedArticles = useArticle(owner);
     return findedArticles;
   }
+
+  //delete article
+  //check if the the sender of the transaction is owner of the contract
+  // then delete the sender data from the storage
+  deleteArticle(owner: string): string {
+
+    checkOwner(context.sender,this.CONTRACT_OWNER);
+    let article: Article;
+
+    for (let i = 0; i < Articles.values().length; i++) {
+      if (Articles.values()[i].sender == owner) {
+        article = Articles.values()[i];
+        Articles.delete(article);
+        return `the ${owner} data deleted successfully`;
+      }
+    }
+    return `the ${owner} has not article on the storage`
+
+
+  }
  
 
 
