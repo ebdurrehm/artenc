@@ -9,13 +9,13 @@ set -e
 
 echo
 echo 'Initilaizing the contract'
-echo near call \$CONTRACT init '{"owner":"abdur23.testnet"}' --accountId \$OWNER
+echo near call $CONTRACT init '{"owner":"'$OWNER'"}' --accountId $OWNER
 echo
 echo \$CONTRACT is $CONTRACT
 echo \$OWNER is $OWNER
 
 echo
 
-near call \$CONTRACT init '{"owner":"'\$OWNER'"}' --accountId \$OWNER
+near call $CONTRACT init '{"owner":"'$OWNER'"}' --accountId $OWNER
 
 exit 0

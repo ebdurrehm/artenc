@@ -13,7 +13,7 @@ echo
 echo \$CONTRACT is $CONTRACT
 echo
 
-near view \$CONTRACT  getArticles
+near view $CONTRACT  getArticles
 
 
 exit 0
