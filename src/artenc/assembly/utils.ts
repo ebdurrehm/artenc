@@ -41,7 +41,7 @@ export function update(id:string, title?:string, url?:string):Array<Article>{
 
 // first check if user added required NEAR to context
 export function checkDonation(donationAmount: u128, min_fee: u128): void {
-    assert(donationAmount >= min_fee, "to add a new article to contract you must attach at least 1 near")
+    assert(donationAmount >= min_fee, "to run this operation you must attach at least 1 near")
 }
 
 // check whether the data is added
