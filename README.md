@@ -1,7 +1,12 @@
 # artenc
-The Encyclopedia of writers' articles | Donate writers by their article
+The Encyclopedia of writers' articles 
 
-___
+<p align="center">
+  <img src="https://github.com/ebdurrehm/artenc/blob/main/ARTENC.png">
+</p>
+
+
+
 ## About project and its business model
 #### This project is a kind of paid encyclopedia. Anyone can add their article to this contract by paying a minimum of 1 NEAR. If each author adds at least 5 articles to the contract and the article is used by the contract users, 3 NEARs are sent to that author from the account of the contract. As a result, both the authors and the contractor benefit.
 
@@ -34,7 +39,6 @@ requires the following environment variables
 `NEAR_ENV`: Either testnet or mainnet
 `OWNER`: The owner of the contract and the parent account. The contract will be deployed to thanks.$OWNER
 
-
 ## Methods and its explanations
 
 | Name   |      functionality      |  privilege | type of function|
@@ -46,6 +50,3 @@ requires the following environment variables
 | useArticle | returns the author's article or articles according to the name of the author included. The returned information also contains the url of the article. It also gives the author points because the article has been reviewed by users. |    public | call |
 | sendNearToWriter | By using this method, all authors who have included at least 5 articles in the contract and whose article has been used are awarded 3 NEARs. |    owner | call |
 | deleteArticle | the name of the author to whom the contract holder wishes; delete his article using this method |   owner | call |
-
-
-
