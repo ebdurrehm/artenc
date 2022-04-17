@@ -104,6 +104,7 @@ export class Contract {
 
  //find article by the id and update
    updateArticle(id:string, title?:string, url?:string):Array<Article>{
+     checkDonation(context.attachedDeposit, this.MIN_FEE);
        let updatedArticle = update(id, title, url);
        return updatedArticle
    }
