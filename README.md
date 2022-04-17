@@ -48,5 +48,5 @@ requires the following environment variables
 | getBalance | returns how much NEARs are currently on the contract balance |    public | view|
 | getArticles | returns general information about the articles currently in the storage of the contract, ie in the form of an array of the title of each article and the author |    public | view|
 | useArticle | returns the author's article or articles according to the name of the author included. The returned information also contains the url of the article. It also gives the author points because the article has been reviewed by users. |    public | call |
-| sendNearToWriter | By using this method, all authors who have included at least 5 articles in the contract and whose article has been used are awarded 3 NEARs. |    owner | call |
+| sendNearToWriter | By using this method, all authors who have included at least 5 articles in the contract and whose article has been used are awarded 2 NEARs. |    private /calling by useArticle method | call |
 | deleteArticle | the name of the author to whom the contract holder wishes; delete his article using this method |   owner | call |
