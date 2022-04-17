@@ -26,18 +26,8 @@ it would better that you deploy this contract to the subaccount of your mainnet 
 
 1. clone this repo locally
 2. run `./scripts/deployProd.sh` to rebuild, deploy and initialize the contract to a target account
-
-requires the following environment variables
-
-`NEAR_ENV`: Either testnet or mainnet
-`OWNER`: The owner of the contract and the parent account. The contract will be deployed to artenc.$OWNER
-
 3. run ./scripts/removeAccount.sh to delete the account
 
-requires the following environment variables
-
-`NEAR_ENV`: Either testnet or mainnet
-`OWNER`: The owner of the contract and the parent account. The contract will be deployed to thanks.$OWNER
 
 ## Methods and its explanations
 
