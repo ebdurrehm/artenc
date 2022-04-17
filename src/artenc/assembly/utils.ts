@@ -1,16 +1,16 @@
 import { Article, generalArticle} from "./model";
 import { Articles} from "./index";
-import { u128 } from "near-sdk-as";
+import { context, u128 } from "near-sdk-as";
 
 // get specific article with its all data url, sender and title
   // set increased point to the sender of this article 
   //this point is required criteria  to send near to the writers
-export function useArticle(owner: string): Array<Article> {
+export function getArticle(owner:string):Array<Article> {
     let findedArticles = new Array<Article>();
-    for (let i = 0; i < Articles.size; i++) {
+    for (let i = 0; i < Articles.values().length; i++) {
         if (Articles.values()[i].sender == owner) {
             const article = Articles.values()[i];
-            article.increaseCount();
+            // article.increaseCount();
             Articles.delete(Articles.values()[i]);
             Articles.add(article);
             findedArticles.push(article);
@@ -20,16 +20,23 @@ export function useArticle(owner: string): Array<Article> {
 }
 
 
-// if the articles of the writers have minum views count(5), then send 3 NEAR to these writers' balance 
-export function findDonateableWriter(): Array<string> {
-    let writers = new Array<string>();
-    for (let i = 0; i < Articles.values().length; i++) {
-        if (Articles.values()[i].count >= 5) {
-            writers.push(Articles.values()[i].sender);
+export function update(id:string, title?:string, url?:string):Array<Article>{
+    let updatedArticle = new Array<Article>();
+    for (let i = 0; i < Articles.size; i++) {
+        if (Articles.values()[i].id == id) {
+            assert(Articles.values()[i].sender == context.sender, "you are not the author of the this article")
+            const article = Articles.values()[i];
+            article.title = typeof title ==='string'?title:article.title;
+           article.url= typeof url ==='string'?url:article.url;
+            Articles.delete(Articles.values()[i]);
+            Articles.add(article);
+            updatedArticle.push(article);
         }
     }
-    return writers;
+    return updatedArticle
 }
+
+
 
 
 // first check if user added required NEAR to context
@@ -59,7 +66,19 @@ export function returnMetaArticle():Array<generalArticle>{
    
         let title:string = Articles.values()[i].title;
         let sender:string = Articles.values()[i].sender;
-        metaArticles.push(new generalArticle(title, sender))
+        let id:string = Articles.values()[i].id;
+        metaArticles.push(new generalArticle(title, sender,id))
     }
     return metaArticles
+}
+
+export function findAuthorArticle(author:string):Array<Article>{
+    let authorArticles = new Array<Article>();
+    for(let i =0; i<Articles.size; i++){
+      if(Articles.values()[i].sender == author){
+         const article =Articles.values()[i];
+        authorArticles.push(article);
+      }
+    }
+    return authorArticles;
 }
