@@ -2,22 +2,6 @@ import { Article, generalArticle} from "./model";
 import { Articles} from "./index";
 import { context, u128 } from "near-sdk-as";
 
-// get specific article with its all data url, sender and title
-  // set increased point to the sender of this article 
-  //this point is required criteria  to send near to the writers
-export function getArticle(owner:string):Array<Article> {
-    let findedArticles = new Array<Article>();
-    for (let i = 0; i < Articles.values().length; i++) {
-        if (Articles.values()[i].sender == owner) {
-            const article = Articles.values()[i];
-            // article.increaseCount();
-            Articles.delete(Articles.values()[i]);
-            Articles.add(article);
-            findedArticles.push(article);
-        }
-    }
-    return findedArticles
-}
 
 
 export function update(id:string, title?:string, url?:string):Array<Article>{
