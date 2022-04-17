@@ -1,6 +1,6 @@
 import { context, ContractPromiseBatch, PersistentSet, u128 } from "near-sdk-as";
 import { Article, generalArticle } from "./model";
-import { checkData, checkDonation, checkOwner, findDonateableWriter,  returnMetaArticle,  useArticle } from "./utils";
+import { checkData, checkDonation, checkOwner,  returnMetaArticle, update, findAuthorArticle } from "./utils";
 
 
 @nearBindgen
@@ -9,12 +9,13 @@ export class Contract {
   private CONTRACT_OWNER: string;
   //minumum amount what required for adding a new article to the BLOCKCHAIN 
   private MIN_FEE: u128 = u128.from("1000000000000000000000000"); //=1 NEAR
-
+  amount:u128;
   //initialize the project and define the owner of the project
   //this owner is used  later to run administrative commands
 
   constructor(owner: string) {
     this.CONTRACT_OWNER = owner;
+    this.amount =u128.Zero;
   }
 
 
@@ -42,54 +43,77 @@ export class Contract {
     }
   }
 
- //donate the writer
-  // if the articles of the writers have minum views count(5), then send 3 NEAR to these writers' balance 
-  sendNearToWriter(): string {
-    //check whether the sender of the transaction is the owner of the contract
-    checkOwner(context.sender, this.CONTRACT_OWNER);
-    //find all writers who have five viewed articles
-  let writers = findDonateableWriter();
-  
-  if (writers.length == 0) {
-    return "there are no donateable writers to donate"
-  }
-  else {
-    for (let i = 0; i < writers.length; i++) {
-      const to_writer = ContractPromiseBatch.create(writers[i]);
-      const donationAmount: u128 = u128.from("3000000000000000000000000");
-      to_writer.transfer(donationAmount);
+  //donate the writer
+  // if the writers have 5 article at least,and contract's users are used their articles, then send 2 NEAR to these writers' balance 
+  private sendNearToWriter(amount:u128, author:string): string {
+    
+        const to_writer = ContractPromiseBatch.create(author);
+        to_writer.transfer(amount);
+      
+      return `you donated these/this ${author} writers/writer`
     }
-    return `you donated these/this ${writers.toString()} writers/writer`
-  }
-}
+  
 
 
-  //viwe how many articles are in the blockchaine  
-  getArticleSize(): i32 {
-    return Articles.size;
-  }
-
-   //get current contract's balance
-   getBalance(): u128 {
+  //get current contract's balance
+  getBalance(): u128 {
     const balance:u128 = u128.from(context.accountBalance);
     return balance;
 
   }
+
+
+ 
 
   //get all of the added articles without url property
   // because user views this article's title and sender 
   //and if user is interested with it then calls useArticle method 
   //then can see the url of the this article
   getArticles(): Array<generalArticle> {
+
     return returnMetaArticle();
   }
 
-   // get specific article with its all data url, sender and title
-  // set increased point to the sender of this article 
-  //this point is required criteria  to send near to the writers
-  useArticle(owner: string): Array<Article> {
-    let findedArticles = useArticle(owner);
-    return findedArticles;
+
+  // get specific article with its all data url, sender and title
+//check whether writer has at least 5 articles
+// then define properly amount and send this amount via sendNearToWriter method
+ 
+  useArticle(author:string):Array<Article>{
+    
+    let authorArticles = findAuthorArticle(author);
+     
+      switch(authorArticles.length){
+        case 5:
+          this.amount =u128.from("2000000000000000000000000");
+          break;
+        case 10:
+          this.amount = u128.from("4000000000000000000000000");
+          break;
+        case 15:
+          this.amount = u128.from("6000000000000000000000000");
+          break;
+        case 20:
+          this.amount = u128.from("8000000000000000000000000");
+        default:
+          this.amount = u128.Zero;
+      }
+      this.sendNearToWriter(this.amount, authorArticles[0].sender);
+      return authorArticles
+  }
+
+ //find article by the id and update
+   updateArticle(id:string, title?:string, url?:string):Array<Article>{
+       let updatedArticle = update(id, title, url);
+       return updatedArticle
+   }
+
+
+
+
+  //viwe how many articles are in the blockchaine  
+  getArticleSize(): i32 {
+    return Articles.size;
   }
 
   //delete article
@@ -111,7 +135,6 @@ export class Contract {
 
 
   }
- 
 
 
 }
