@@ -1,33 +1,31 @@
-
 // main article class
 @nearBindgen
 export class Article{
   url:string;
   title:string;
   sender: string;
-  static lastCount:number =0;
-  count:number;
+
+  id:string 
   constructor(url:string, title:string, sender:string){
       this.url =url;
       this.sender = sender;
       this.title = title;
-      this.count =0;
+      //cannot create random UID AssemblyScript gives error
+      this.id = this.title.slice(3)+'-'+this.sender.slice(0,2);
   }
-  //increase count property value when the class object created
-  // every time when the same writer adds a new article, this property is increased
-    increaseCount():void{
-       this.count = ++Article.lastCount;
-  }
+ 
 }
 
 // article class without url property
 @nearBindgen
 export class generalArticle{
-  title:string
-  sender:string
-  constructor(title:string, sender:string){
+  title:string;
+  sender:string;
+  id:string;
+  constructor(title:string, sender:string,id:string){
       this.title=title;
       this.sender = sender;
+      this.id=id
   }
 }
 
