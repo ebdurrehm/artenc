@@ -40,3 +40,4 @@ it would better that you deploy this contract to the subaccount of your mainnet 
 | useArticle | returns the author's article or articles according to the name of the author included. The returned information also contains the url of the article. It also gives the author points because the article has been reviewed by users. |    public | call |
 | sendNearToWriter | By using this method, all authors who have included at least 5 articles in the contract and whose article has been used are awarded 2 NEARs. |    private /calling by useArticle method | call |
 | deleteArticle | the name of the author to whom the contract holder wishes; delete his article using this method |   owner | call |
+| updateArticle | id-si verilmiş məqalənin məlumatlarını yeniləyir və yenilənmiş məqaləni qaytarır |   author | call |
