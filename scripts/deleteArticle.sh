@@ -17,6 +17,6 @@ echo \$AUTHOR is $AUTHOR
 
 echo
 
-near call  \$CONTRACT deleteArticle '{"owner":"'\$AUTHOR'"}' --accountId \$OWNER
+near call  $CONTRACT deleteArticle '{"owner":"'$AUTHOR'"}' --accountId $OWNER
 
 exit 0

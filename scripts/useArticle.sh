@@ -16,7 +16,7 @@ echo \$AUTHOR is $AUTHOR
 echo \$YOUR_ID is $YOUR_ID
 echo
 
-near call $CONTRACT useArticle '{"author":"'$AUTHOR'"}' --accountId $YOUR_ID
+near call $CONTRACT useArticle '{"author":"'$AUTHOR'"}' --accountId $YOUR_ID --gas=75000000000000
 
 
 exit 0
