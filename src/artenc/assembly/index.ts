@@ -9,7 +9,7 @@ export class Contract {
   private CONTRACT_OWNER: string;
   //minumum amount what required for adding a new article to the BLOCKCHAIN 
   private MIN_FEE: u128 = u128.from("1000000000000000000000000"); //=1 NEAR
-  amount:u128;
+  private amount:u128;
   //initialize the project and define the owner of the project
   //this owner is used  later to run administrative commands
 
@@ -17,7 +17,7 @@ export class Contract {
     this.CONTRACT_OWNER = owner;
     this.amount =u128.Zero;
   }
-
+//=========================================CALL METHODS========================================================
 
   // add  new article to the contract
   // first check if user added required NEAR to context
@@ -43,6 +43,34 @@ export class Contract {
     }
   }
 
+  
+  // get specific article with its all data url, sender and title
+//check whether writer has at least 5 articles
+// then define properly amount and send this amount via sendNearToWriter method
+ 
+useArticle(author:string):Array<Article>{
+    
+  let authorArticles = findAuthorArticle(author);
+   
+    switch(authorArticles.length){
+      case 5:
+        this.amount =u128.from("2000000000000000000000000");
+        break;
+      case 10:
+        this.amount = u128.from("4000000000000000000000000");
+        break;
+      case 15:
+        this.amount = u128.from("6000000000000000000000000");
+        break;
+      case 20:
+        this.amount = u128.from("8000000000000000000000000");
+      default:
+        this.amount = u128.Zero;
+    }
+    this.sendNearToWriter(this.amount, author);
+    return authorArticles
+}
+
   //donate the writer
   // if the writers have 5 article at least,and contract's users are used their articles, then send 2 NEAR to these writers' balance 
   private sendNearToWriter(amount:u128, author:string): string {
@@ -52,8 +80,38 @@ export class Contract {
       
       return `you donated these/this ${author} writers/writer`
     }
-  
 
+
+
+    //find article by the id and update
+   updateArticle(id:string, title?:string, url?:string):Array<Article>{
+    checkDonation(context.attachedDeposit, this.MIN_FEE);
+      let updatedArticle = update(id, title, url);
+      return updatedArticle
+  }
+
+  
+    //delete article
+  //check if the the sender of the transaction is owner of the contract
+  // then delete the sender data from the storage
+  deleteArticle(id: string): string {
+
+    checkOwner(context.sender,this.CONTRACT_OWNER);
+    let article: Article;
+
+    for (let i = 0; i < Articles.values().length; i++) {
+      if (Articles.values()[i].id == id) {
+        article = Articles.values()[i];
+        Articles.delete(article);
+        return `the ${id} data deleted successfully`;
+      }
+    }
+    return `the ${id} has not article on the storage`
+
+
+  }
+
+//==============================================VIEW METHODS===========================================================
 
   //get current contract's balance
   getBalance(): u128 {
@@ -61,9 +119,6 @@ export class Contract {
     return balance;
 
   }
-
-
- 
 
   //get all of the added articles without url property
   // because user views this article's title and sender 
@@ -75,66 +130,9 @@ export class Contract {
   }
 
 
-  // get specific article with its all data url, sender and title
-//check whether writer has at least 5 articles
-// then define properly amount and send this amount via sendNearToWriter method
- 
-  useArticle(author:string):Array<Article>{
-    
-    let authorArticles = findAuthorArticle(author);
-     
-      switch(authorArticles.length){
-        case 5:
-          this.amount =u128.from("2000000000000000000000000");
-          break;
-        case 10:
-          this.amount = u128.from("4000000000000000000000000");
-          break;
-        case 15:
-          this.amount = u128.from("6000000000000000000000000");
-          break;
-        case 20:
-          this.amount = u128.from("8000000000000000000000000");
-        default:
-          this.amount = u128.Zero;
-      }
-      this.sendNearToWriter(this.amount, authorArticles[0].sender);
-      return authorArticles
-  }
-
- //find article by the id and update
-   updateArticle(id:string, title?:string, url?:string):Array<Article>{
-     checkDonation(context.attachedDeposit, this.MIN_FEE);
-       let updatedArticle = update(id, title, url);
-       return updatedArticle
-   }
-
-
-
-
   //viwe how many articles are in the blockchaine  
   getArticleSize(): i32 {
     return Articles.size;
-  }
-
-  //delete article
-  //check if the the sender of the transaction is owner of the contract
-  // then delete the sender data from the storage
-  deleteArticle(owner: string): string {
-
-    checkOwner(context.sender,this.CONTRACT_OWNER);
-    let article: Article;
-
-    for (let i = 0; i < Articles.values().length; i++) {
-      if (Articles.values()[i].sender == owner) {
-        article = Articles.values()[i];
-        Articles.delete(article);
-        return `the ${owner} data deleted successfully`;
-      }
-    }
-    return `the ${owner} has not article on the storage`
-
-
   }
 
 
