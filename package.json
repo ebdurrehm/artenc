@@ -12,7 +12,7 @@
       "test:simulate": "cargo test -- --nocapture",
       "clean": "rm -rf ./build && rm -rf ./neardev && rm -rf ./target"
     },
-    "keywords": [],
+    "keywords": ["smart-contract", "web3", "near-protocol"],
     "author": "Abdurrahim Ahmadov",
     "license": "ISC",
     "devDependencies": {
